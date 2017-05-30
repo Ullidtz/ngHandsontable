@@ -4,7 +4,7 @@
     "angular": "~1.5.0",
     "handsontable": "~0.28.4"
   },
-  "homepage": "https://github.com/handsontable/ngHandsontable",
+  "homepage": "https://github.com/Ullidtz/ngHandsontable",
   "authors": [
     "Handsoncode",
     "Handsoncode <hello@handsontable.com>"
