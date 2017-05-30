@@ -18,17 +18,19 @@
 
   function settingFactory(hotRegisterer, $sanitize) {
 
-    function sanitizeSettings(settings){
-      if(!$sanitize)return;
-      
-      if(settings.colHeaders && settings.colHeaders.length > 0){
-        for(var i = 0; i < settings.colHeaders.length; i++){
+    function sanitizeSettings(settings) {
+      if (!$sanitize) {
+        return;
+      }
+
+      if (settings.colHeaders && settings.colHeaders.length > 0) {
+        for (var i = 0; i < settings.colHeaders.length; i++) {
           settings.colHeaders[i] = $sanitize(settings.colHeaders[i]);
         }
       }
 
-      if(settings.columns && settings.columns.length > 0){
-        for(var i = 0; i < settings.columns.length; i++){
+      if (settings.columns && settings.columns.length > 0) {
+        for (var i = 0; i < settings.columns.length; i++) {
           settings.columns[i].data = $sanitize(settings.columns[i].data);
         }
       }

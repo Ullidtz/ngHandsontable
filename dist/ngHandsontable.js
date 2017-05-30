@@ -5,7 +5,7 @@
  * Copyright 2015 Handsoncode sp. z o.o. <hello@handsontable.com>
  * Licensed under the MIT license.
  * https://github.com/handsontable/ngHandsontable
- * Date: Wed Oct 26 2016 10:00:05 GMT+0200 (CEST)
+ * Date: Tue May 30 2017 12:03:48 GMT+0700 (SE Asia Standard Time)
 */
 
 if (document.all && !document.addEventListener) { // IE 8 and lower
@@ -117,7 +117,26 @@ Handsontable.hooks.add('afterContextMenuShow', function() {
     return string.substr(0, 1).toUpperCase() + string.substr(1, string.length - 1);
   }
 
-  function settingFactory(hotRegisterer) {
+  function settingFactory(hotRegisterer, $sanitize) {
+
+    function sanitizeSettings(settings) {
+      if (!$sanitize) {
+        return;
+      }
+
+      if (settings.colHeaders && settings.colHeaders.length > 0) {
+        for (var i = 0; i < settings.colHeaders.length; i++) {
+          settings.colHeaders[i] = $sanitize(settings.colHeaders[i]);
+        }
+      }
+
+      if (settings.columns && settings.columns.length > 0) {
+        for (var i = 0; i < settings.columns.length; i++) {
+          settings.columns[i].data = $sanitize(settings.columns[i].data);
+        }
+      }
+    }
+
     return {
       containerClassName: 'handsontable-container',
 
@@ -154,6 +173,7 @@ Handsontable.hooks.add('afterContextMenuShow', function() {
        */
       updateHandsontableSettings: function(instance, settings) {
         if (instance) {
+          sanitizeSettings(settings);
           instance.updateSettings(settings);
         }
       },
@@ -191,6 +211,7 @@ Handsontable.hooks.add('afterContextMenuShow', function() {
           }
         }
 
+        sanitizeSettings(settings);
         return settings;
       },
 
@@ -352,7 +373,7 @@ Handsontable.hooks.add('afterContextMenuShow', function() {
       }
     };
   }
-  settingFactory.$inject = ['hotRegisterer'];
+  settingFactory.$inject = ['hotRegisterer', '$sanitize'];
 
   angular.module('ngHandsontable.services').factory('settingFactory', settingFactory);
 }());
