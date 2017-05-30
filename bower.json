@@ -1,7 +1,8 @@
 {
-  "name": "ng-handsontable",
+  "name": "ngHandsontable",
   "dependencies": {
-    "angular": "~1.5.0",
+    "angular": "^1.5.0",
+    "angular-sanitize": "^1.6.4",
     "handsontable": "~0.28.4"
   },
   "homepage": "https://github.com/Ullidtz/ngHandsontable",
