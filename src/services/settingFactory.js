@@ -16,7 +16,24 @@
     return string.substr(0, 1).toUpperCase() + string.substr(1, string.length - 1);
   }
 
-  function settingFactory(hotRegisterer) {
+  function settingFactory(hotRegisterer, $sanitize) {
+
+    function sanitizeSettings(settings){
+      if(!$sanitize)return;
+      
+      if(settings.colHeaders && settings.colHeaders.length > 0){
+        for(var i = 0; i < settings.colHeaders.length; i++){
+          settings.colHeaders[i] = $sanitize(settings.colHeaders[i]);
+        }
+      }
+
+      if(settings.columns && settings.columns.length > 0){
+        for(var i = 0; i < settings.columns.length; i++){
+          settings.columns[i].data = $sanitize(settings.columns[i].data);
+        }
+      }
+    }
+
     return {
       containerClassName: 'handsontable-container',
 
@@ -53,6 +70,7 @@
        */
       updateHandsontableSettings: function(instance, settings) {
         if (instance) {
+          sanitizeSettings(settings);
           instance.updateSettings(settings);
         }
       },
@@ -90,6 +108,7 @@
           }
         }
 
+        sanitizeSettings(settings);
         return settings;
       },
 
@@ -251,7 +270,7 @@
       }
     };
   }
-  settingFactory.$inject = ['hotRegisterer'];
+  settingFactory.$inject = ['hotRegisterer', '$sanitize'];
 
   angular.module('ngHandsontable.services').factory('settingFactory', settingFactory);
 }());
